@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABCD: Attractor-Based Convergent Development</title>
+    <style>
+        /* Modern, technical design for AI/LLM professionals */
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #151a36;
+            --bg-accent: #1e2541;
+            --text-primary: #e4e7f1;
+            --text-secondary: #a8b2d1;
+            --text-muted: #64748b;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --border-color: #2d3561;
+            --code-bg: #1a1f3a;
+            --max-width: 1200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        /* Navigation */
+        #navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        #navbar h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+        }
+
+        #navbar a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        #navbar a:hover {
+            color: var(--accent-blue);
+        }
+
+        /* Main content */
+        main {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 5rem 2rem 3rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 2rem 0;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Site overview */
+        #site-overview {
+            background-color: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+            border: 1px solid var(--border-color);
+        }
+
+        #site-overview p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        #site-overview p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Sections */
+        section {
+            background-color: var(--bg-secondary);
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-blue);
+        }
+
+
+        h3 {
+            font-size: 1.3rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Lists */
+        ul {
+            list-style-type: disc;
+            list-style-position: inside;
+            margin-bottom: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+
+        /* Why sections */
+        .why {
+        }
+
+        .why p {
+            margin-bottom: 0;
+            color: var(--text-secondary);
+        }
+
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            #navbar h1 {
+                font-size: 1.2rem;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+
+            main {
+                padding: 4rem 1rem 2rem;
+            }
+        }
+
+        /* Footer */
+        #footer {
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        #footer p {
+            color: var(--text-muted);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <h1>Attractor-Based Convergent Development (ABCD)</h1>
+        <a href="https://github.com/galaxyblur/abcd" target="_blank" title="Source Code">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+        </a>
+    </nav>
+
+    <main>
+        <header>
+            <h1>Attractor-Based Convergent Development (ABCD)</h1>
+        </header>
+
+        <div id="site-overview">
+            <p>Just as falling leaves follow chaotic paths yet always reach the ground, ABCD's AI agents explore wildly different approaches while being pulled toward your requirements like a strange attractor. Unpredictable creativity, predictable results.</p>
+            <p>Attractor-Based Convergent Development (ABCD) harnesses this chaos theory principle for software development: multiple AI agents independently explore different solutions while mathematical forces ensure they all converge on working code.</p>
+            <p>This website demonstrates the process in action—every line was generated by an AI agent working within ABCD's framework, with complete source code available for study.</p>
+        </div>
+
+        <section id="attractor">
+            <h2>Attractor</h2>
+            <p>The "A" in ABCD, the attractor is the fundamental force that drives agents towards the spec.</p>
+            <ul>
+                <li>Functional test suites (Cypress, Playwright)</li>
+                <li>Performance benchmarks</li>
+                <li>API contract tests</li>
+                <li>Integration test scenarios</li>
+                <li>User acceptance criteria as executable specs</li>
+            </ul>
+            <div class="why">
+                <p>This is literally the "strange attractor" - without it, you have chaos without convergence. The tests are what create the gravitational pull toward viable solutions.</p>
+            </div>
+        </section>
+
+        <section id="scaffolding">
+            <h2>Scaffolding</h2>
+            <p>In ABCD, the human software engineer(s) are responsible for providing sensible project scaffolding to the agents to avoid development iterations on basic needs.</p>
+            <ul>
+                <li>Agent Guide: an entry-point markdown file for agents to use as a reference. Includes info on design, and the rules of engagement.</li>
+                <li>Mission Statement: the project philosophy, purpose, and raison d'etre from an end-user perspective.</li>
+                <li>Live Project Instances: web server(s), build(s), or app deployment(s) runnable by the agents as needed</li>
+                <li>Testing Setup: a standard means for testing the project that all agents will share and use to validate changes</li>
+                <li>Design Guidelines: basic specification for how the project UI should be designed</li>
+                <li>Boilerplate Basics: code that handles common patterns; project structure and file organization; initial dependencies; initial config</li>
+            </ul>
+            <div class="why">
+                <p>Without scaffolding, agents would waste enormous time and compute resources solving already-solved problems like "how to set up a web server" instead of focusing on the unique solution space.</p>
+            </div>
+        </section>
+
+        <section id="guardrails">
+            <h2>Guardrails</h2>
+            <p>Guardrails prevent the generation of unsafe or malicious code, whether intentional or not.</p>
+            <ul>
+                <li>Static analysis: Code scanning for known vulnerabilities</li>
+                <li>Runtime sandboxing: Isolated execution environments</li>
+                <li>API access controls: Restricted external service calls</li>
+                <li>Resource limits: CPU, memory, network bandwidth caps</li>
+                <li>Code review gates: Automated checks for dangerous patterns</li>
+            </ul>
+            <div class="why">
+                <p>AI agents can and will generate unsafe code if not constrained. Security isn't optional when you're letting AI systems write production software.</p>
+            </div>
+        </section>
+
+        <section id="resources">
+            <h2>Approved Resources</h2>
+            <p>Control what external dependencies agents can use by defining resources through a whitelist or blacklist approach.</p>
+            
+            <h3>Whitelist</h3>
+            <ul>
+                <li>Pre-approved libraries that have been security audited</li>
+                <li>Known-good versions with verified checksums</li>
+                <li>Organizational standards compliance</li>
+            </ul>
+            
+            <h3>Blacklist</h3>
+            <ul>
+                <li>Banned packages with known vulnerabilities</li>
+                <li>Packages with problematic licenses</li>
+                <li>Dependencies that violate architectural principles</li>
+            </ul>
+            
+            <div class="why">
+                <p>Approved resources prevent agents from pulling in problematic dependencies, ensures compliance with organizational standards, and maintains architectural consistency.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer">
+        <p>© 2025 Corky Brown</p>
+        <p id="agent-signature">Generated by Agent Red on 2025-01-06T07:52:00.000Z</p>
+    </footer>
+</body>
+</html>
