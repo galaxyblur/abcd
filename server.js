@@ -16,6 +16,11 @@ app.get('/', (req, res) => {
     res.sendFile(join(__dirname, 'dist', 'index.html'));
 });
 
+// Handle data-viz route
+app.get('/data-viz', (req, res) => {
+    res.sendFile(join(__dirname, 'dist', 'data-viz.html'));
+});
+
 app.listen(PORT, () => {
     console.log(`Production server running at http://localhost:${PORT}/`);
 });
