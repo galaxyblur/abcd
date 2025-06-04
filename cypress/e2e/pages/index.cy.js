@@ -1,3 +1,7 @@
+/* AGENT: Do not use any mockups to influence the design of this page;
+ * come up with your own design that meets the requirements.
+ */
+
 describe('the index page', () => {
   /* Design Requirements:
    * - All list items have a visible list-style-type with position "inside"

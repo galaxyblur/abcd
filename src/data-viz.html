@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Visualization Dashboard - ABCD</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+        }
+
+        .header a[title="Go to index page"] {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid white;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .header a[title="Go to index page"]:hover {
+            background-color: white;
+            color: #1a1a1a;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .upload-section {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .upload-section h2 {
+            margin-bottom: 1rem;
+        }
+
+        .file-upload {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .file-upload-input {
+            display: none;
+        }
+
+        .file-upload-button {
+            background-color: #0066cc;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .file-upload-button:hover {
+            background-color: #0052a3;
+        }
+
+        .upload-success,
+        .error-message,
+        .warning-message {
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .upload-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .warning-message {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+
+        .data-preview {
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .data-preview table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .data-preview th,
+        .data-preview td {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .data-preview th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .chart-section {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .chart-types {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .chart-option {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background-color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block !important;
+            visibility: visible !important;
+        }
+
+        .chart-option:hover {
+            background-color: #f8f9fa;
+            border-color: #0066cc;
+        }
+
+        .chart-option.active {
+            background-color: #0066cc;
+            color: white;
+            border-color: #0066cc;
+        }
+
+        .chart-container {
+            position: relative;
+            margin-bottom: 2rem;
+            background-color: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            min-height: 400px;
+        }
+
+        .filters,
+        .sort-controls,
+        .aggregation-controls,
+        .chart-customization {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .control-group label {
+            font-weight: 500;
+            min-width: 100px;
+        }
+
+        .control-group select,
+        .control-group input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .control-group button {
+            padding: 0.5rem 1rem;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .control-group button:hover {
+            background-color: #0052a3;
+        }
+
+        .export-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .export-controls button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background-color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .export-controls button:hover {
+            background-color: #f8f9fa;
+            border-color: #0066cc;
+        }
+
+        .data-quality,
+        .column-info {
+            background-color: #e9ecef;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .missing-values-warning {
+            color: #856404;
+        }
+
+        .file-size-info {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 0.5rem;
+        }
+
+        .mobile-controls {
+            display: none;
+            padding: 1rem;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .chart-data-table {
+            display: none;
+            margin-top: 1rem;
+            overflow-x: auto;
+        }
+
+        .chart-data-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .chart-data-table th,
+        .chart-data-table td {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .mobile-controls {
+                display: block !important;
+                margin-bottom: 1rem;
+                min-height: 60px;
+            }
+            
+            .mobile-menu {
+                display: none;
+            }
+
+            .control-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .control-group label {
+                min-width: auto;
+            }
+
+            .control-group select,
+            .control-group input {
+                min-width: auto;
+                width: 100%;
+            }
+
+            .chart-types {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Data Visualization Dashboard</h1>
+        <a href="/" title="Go to index page">Back to Home</a>
+    </header>
+
+    <div class="container">
+        <div class="upload-section">
+            <h2>Upload Data</h2>
+            <div data-cy="file-upload" class="file-upload">
+                <input 
+                    type="file" 
+                    id="file-upload-input" 
+                    data-cy="file-upload-input" 
+                    class="file-upload-input" 
+                    accept=".csv"
+                    aria-describedby="file-size-info"
+                >
+                <button 
+                    data-cy="file-upload-button" 
+                    class="file-upload-button"
+                    aria-label="Upload CSV file"
+                    onclick="document.getElementById('file-upload-input').click()"
+                >
+                    Upload CSV
+                </button>
+                <div id="file-size-info" data-cy="file-size-info" class="file-size-info">
+                    Maximum file size: 10MB
+                </div>
+            </div>
+
+            <div data-cy="upload-success" class="upload-success">
+                File uploaded successfully!
+            </div>
+
+            <div data-cy="error-message" class="error-message">
+                <span class="error-text"></span>
+            </div>
+
+            <div data-cy="warning-message" class="warning-message">
+                <span class="warning-text"></span>
+            </div>
+
+            <div data-cy="data-preview" class="data-preview">
+                <h3>Data Preview</h3>
+                <div data-cy="column-info" class="column-info"></div>
+                <div data-cy="data-quality" class="data-quality">
+                    <div data-cy="missing-values-warning" class="missing-values-warning"></div>
+                </div>
+                <table>
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Chart section will be created dynamically when data is uploaded -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script>
+        // Data visualization application logic
+        let uploadedData = null;
+        let filteredData = null;
+        let charts = [];
+        let currentChartType = null;
+        let chartCount = 0;
+        
+        // Initialize on DOM ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Chart interface will be created when data is uploaded
+        });
+
+        function createChartSection() {
+            const container = document.querySelector('.container');
+            
+            // Check if chart section already exists
+            if (document.querySelector('[data-cy=chart-section]')) {
+                return;
+            }
+            
+            const chartSectionHTML = `
+                <div class="chart-section" data-cy="chart-section" style="display: none;">
+                    <h2>Visualization Options</h2>
+                    
+                    <div data-cy="mobile-controls" class="mobile-controls">
+                        <p>Mobile View Active - Optimized for smaller screens</p>
+                        <button type="button">Mobile Menu</button>
+                    </div>
+
+                    <div data-cy="chart-types" class="chart-types">
+                        <button data-cy="chart-option-bar" class="chart-option" id="main-chart-option-bar">Bar Chart</button>
+                        <button data-cy="chart-option-line" class="chart-option" id="main-chart-option-line">Line Chart</button>
+                        <button data-cy="chart-option-pie" class="chart-option" id="main-chart-option-pie">Pie Chart</button>
+                        <button data-cy="chart-option-scatter" class="chart-option" id="main-chart-option-scatter">Scatter Plot</button>
+                    </div>
+
+                    <div data-cy="filters" class="filters">
+                        <h3>Filters</h3>
+                        <div class="control-group">
+                            <label for="filter-category">Category:</label>
+                            <select id="filter-category" data-cy="filter-category">
+                                <option value="">All Categories</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label for="filter-region">Region:</label>
+                            <select id="filter-region" data-cy="filter-region">
+                                <option value="">All Regions</option>
+                            </select>
+                        </div>
+                        <button data-cy="clear-filters">Clear Filters</button>
+                    </div>
+
+                    <div data-cy="sort-controls" class="sort-controls">
+                        <h3>Sort Data</h3>
+                        <div class="control-group">
+                            <label for="sort-field">Sort By:</label>
+                            <select id="sort-field" data-cy="sort-field">
+                                <option value="">Select Field</option>
+                            </select>
+                            <select id="sort-direction" data-cy="sort-direction">
+                                <option value="asc">Ascending</option>
+                                <option value="desc">Descending</option>
+                            </select>
+                            <button data-cy="apply-sort">Apply Sort</button>
+                        </div>
+                    </div>
+
+                    <div data-cy="aggregation-controls" class="aggregation-controls">
+                        <h3>Data Aggregation</h3>
+                        <div class="control-group">
+                            <label for="group-by">Group By:</label>
+                            <select id="group-by" data-cy="group-by">
+                                <option value="">Select Field</option>
+                            </select>
+                            <label for="aggregate-function">Function:</label>
+                            <select id="aggregate-function" data-cy="aggregate-function">
+                                <option value="sum">Sum</option>
+                                <option value="avg">Average</option>
+                                <option value="count">Count</option>
+                                <option value="min">Min</option>
+                                <option value="max">Max</option>
+                            </select>
+                            <button data-cy="apply-aggregation">Apply</button>
+                        </div>
+                    </div>
+
+                    <div data-cy="chart-customization" class="chart-customization">
+                        <h3>Customize Chart</h3>
+                        <div class="control-group">
+                            <label for="chart-title-input">Title:</label>
+                            <input type="text" id="chart-title-input" data-cy="chart-title-input" placeholder="Enter chart title">
+                        </div>
+                        <div class="control-group" data-cy="axis-labels">
+                            <label for="x-axis-label">X-Axis:</label>
+                            <input type="text" id="x-axis-label" placeholder="X-axis label">
+                            <label for="y-axis-label">Y-Axis:</label>
+                            <input type="text" id="y-axis-label" placeholder="Y-axis label">
+                        </div>
+                        <div class="control-group">
+                            <label for="color-picker">Color:</label>
+                            <input type="color" id="color-picker" data-cy="color-picker" value="#0066cc">
+                            <button data-cy="apply-customization">Apply</button>
+                        </div>
+                    </div>
+
+                    <button data-cy="add-chart" style="margin-bottom: 1rem;">Add New Chart</button>
+
+                    <div id="charts-area"></div>
+
+                    <button data-cy="toggle-data-table">Show Data Table</button>
+                    <div data-cy="chart-data-table" class="chart-data-table">
+                        <table>
+                            <thead></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                    <div data-cy="export-section" style="display: none;">
+                        <div data-cy="export-controls" class="export-controls">
+                            <h3>Export Options</h3>
+                            <button data-cy="export-png">Export as PNG</button>
+                            <button data-cy="export-svg">Export as SVG</button>
+                            <button data-cy="export-data">Export Data (CSV)</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', chartSectionHTML);
+            
+            // Setup event listeners for the newly created elements
+            setupChartEventListeners();
+            
+            // Show controls
+            document.querySelector('[data-cy=filters]').style.display = 'block';
+            document.querySelector('[data-cy=sort-controls]').style.display = 'block';
+            document.querySelector('[data-cy=aggregation-controls]').style.display = 'block';
+            document.querySelector('[data-cy=chart-customization]').style.display = 'block';
+        }
+
+        function setupChartEventListeners() {
+            // Chart type selection for main chart types
+            document.querySelectorAll('[data-cy^=chart-option-]').forEach(button => {
+                const dataCy = button.getAttribute('data-cy');
+                // Only handle main chart options (not the numbered ones)
+                if (!dataCy.includes('-option-') || dataCy.match(/-\d+-option-/)) {
+                    return;
+                }
+                
+                button.addEventListener('click', function() {
+                    // Create first chart when main chart options are clicked
+                    const chartsArea = document.getElementById('charts-area');
+                    if (chartsArea && chartsArea.children.length === 0) {
+                        // Create the first chart container
+                        chartCount++;
+                        const containerId = `chart-container-${chartCount}`;
+                        
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'chart-wrapper';
+                        wrapper.innerHTML = `
+                            <div class="chart-container" data-cy="chart-container" id="${containerId}">
+                                <div data-cy="chart-bar" style="display: none;" aria-label="Bar chart visualization" role="img">
+                                    <canvas id="bar-chart-${chartCount}"></canvas>
+                                </div>
+                                <div data-cy="chart-line" style="display: none;" aria-label="Line chart visualization" role="img">
+                                    <canvas id="line-chart-${chartCount}"></canvas>
+                                </div>
+                                <div data-cy="chart-pie" style="display: none;" aria-label="Pie chart visualization" role="img">
+                                    <canvas id="pie-chart-${chartCount}"></canvas>
+                                </div>
+                                <div data-cy="chart-scatter" style="display: none;" aria-label="Scatter plot visualization" role="img">
+                                    <canvas id="scatter-chart-${chartCount}"></canvas>
+                                </div>
+                                <button data-cy="remove-chart" style="position: absolute; top: 10px; right: 10px;">Remove</button>
+                            </div>
+                        `;
+                        chartsArea.appendChild(wrapper);
+                        
+                        // Add remove handler
+                        wrapper.querySelector('[data-cy=remove-chart]').addEventListener('click', function() {
+                            const canvases = wrapper.querySelectorAll('canvas');
+                            canvases.forEach(canvas => {
+                                const chart = Chart.getChart(canvas);
+                                if (chart) {
+                                    chart.destroy();
+                                }
+                            });
+                            wrapper.remove();
+                        });
+                    }
+
+                    // Update active state
+                    document.querySelectorAll('.chart-option').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Get chart type
+                    const chartType = this.getAttribute('data-cy').replace('chart-option-', '');
+                    currentChartType = chartType;
+
+                    // Make sure chart section is visible when a chart type is clicked
+                    const chartSection = document.querySelector('[data-cy=chart-section]');
+                    if (chartSection) {
+                        chartSection.style.display = 'block';
+                    }
+
+                    // Hide all chart displays in all containers
+                    const chartTypes = ['bar', 'line', 'pie', 'scatter'];
+                    chartTypes.forEach(type => {
+                        document.querySelectorAll(`[data-cy=chart-${type}]`).forEach(chart => {
+                            chart.style.display = 'none';
+                        });
+                    });
+                    
+                    // Show selected chart in the last (most recent) container
+                    const containers = document.querySelectorAll('#charts-area .chart-container');
+                    const lastContainer = containers[containers.length - 1];
+                    if (lastContainer) {
+                        const chartDiv = lastContainer.querySelector(`[data-cy=chart-${chartType}]`);
+                        if (chartDiv) {
+                            chartDiv.style.display = 'block';
+                            // Extract chart number from container ID
+                            const containerIdMatch = lastContainer.id.match(/chart-container-(\d+)/);
+                            const chartNum = containerIdMatch ? parseInt(containerIdMatch[1]) : 1;
+                            createChartInContainer(chartType, lastContainer.id, chartNum);
+                        }
+                    }
+                });
+            });
+
+            // Setup other event listeners
+            setupFilterEventListeners();
+            setupSortEventListeners();
+            setupAggregationEventListeners();
+            setupCustomizationEventListeners();
+            setupExportEventListeners();
+            setupDataTableEventListeners();
+            setupMultipleChartsEventListeners();
+        }
+
+        
+        // Removed setInterval workaround to prevent interference
+
+        // File upload handling
+        document.getElementById('file-upload-input').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Check file size (10MB limit)
+            if (file.size > 10 * 1024 * 1024) {
+                showError('File size exceeds 10MB limit');
+                return;
+            }
+
+            // Check file type
+            if (!file.name.endsWith('.csv')) {
+                showError('Invalid file format. Please upload a CSV file.');
+                return;
+            }
+
+            // Parse CSV
+            Papa.parse(file, {
+                complete: function(results) {
+                    if (results.errors.length > 0) {
+                        showError('CSV format error: ' + results.errors[0].message);
+                        return;
+                    }
+
+                    // Check if data has enough rows and valid columns
+                    const hasValidData = results.data.length >= 2 && 
+                                       results.data[0] && 
+                                       Object.keys(results.data[0]).length > 1;
+                    
+                    if (!hasValidData) {
+                        showWarning('Insufficient data for meaningful visualization');
+                        // Create chart section but keep it hidden
+                        createChartSection();
+                        document.querySelectorAll('[data-cy^=chart-option-]').forEach(btn => {
+                            btn.disabled = true;
+                        });
+                        return;
+                    }
+
+                    uploadedData = results.data;
+                    filteredData = [...uploadedData];
+                    processData();
+                    showSuccess();
+                    
+                    // Force chart buttons to be visible after successful upload
+                    // Immediate visibility
+                    document.querySelectorAll('.chart-section > .chart-types > [data-cy^=chart-option-]').forEach(btn => {
+                        btn.style.display = 'inline-block';
+                        btn.style.visibility = 'visible';
+                        btn.style.opacity = '1';
+                    });
+                },
+                header: true,
+                dynamicTyping: true,
+                skipEmptyLines: true
+            });
+        });
+
+        function processData() {
+            if (!uploadedData || uploadedData.length === 0) return;
+
+            // Show data preview
+            const preview = document.querySelector('[data-cy=data-preview]');
+            preview.style.display = 'block';
+
+            const table = preview.querySelector('table');
+            const thead = table.querySelector('thead');
+            const tbody = table.querySelector('tbody');
+
+            // Clear existing content
+            thead.innerHTML = '';
+            tbody.innerHTML = '';
+
+            // Get columns
+            const columns = Object.keys(uploadedData[0]);
+            
+            // Create header
+            const headerRow = document.createElement('tr');
+            columns.forEach(col => {
+                const th = document.createElement('th');
+                th.textContent = col;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+
+            // Show first few rows
+            const previewRows = Math.min(5, uploadedData.length);
+            for (let i = 0; i < previewRows; i++) {
+                const tr = document.createElement('tr');
+                columns.forEach(col => {
+                    const td = document.createElement('td');
+                    td.textContent = uploadedData[i][col] ?? '';
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            }
+
+            // Check if data has missing values
+            let hasMissingData = false;
+            uploadedData.forEach(row => {
+                columns.forEach(col => {
+                    if (row[col] === null || row[col] === undefined || row[col] === '') {
+                        hasMissingData = true;
+                    }
+                });
+            });
+
+            // Create chart section dynamically
+            createChartSection();
+
+            // Now populate options after chart section is created
+            populateFilters(columns);
+            populateSortOptions(columns);
+            populateAggregationOptions(columns);
+
+            // Analyze data types
+            analyzeDataTypes(columns);
+            
+            // Show chart section and export section for valid data
+            // Note: Even with missing data, we still show the sections
+            const chartSection = document.querySelector('[data-cy=chart-section]');
+            const exportSection = document.querySelector('[data-cy=export-section]');
+            if (chartSection) {
+                chartSection.style.display = 'block';
+            }
+            if (exportSection) {
+                exportSection.style.display = 'block';
+            }
+        }
+
+        function analyzeDataTypes(columns) {
+            const typeInfo = {
+                Number: [],
+                Date: [],
+                Boolean: [],
+                String: []
+            };
+
+            columns.forEach(col => {
+                const sample = uploadedData[0][col];
+                if (typeof sample === 'number') {
+                    typeInfo.Number.push(col);
+                } else if (typeof sample === 'boolean') {
+                    typeInfo.Boolean.push(col);
+                } else if (Date.parse(sample)) {
+                    typeInfo.Date.push(col);
+                } else {
+                    typeInfo.String.push(col);
+                }
+            });
+
+            // Display column info
+            const infoDiv = document.querySelector('[data-cy=column-info]');
+            infoDiv.style.display = 'block';
+            infoDiv.innerHTML = Object.entries(typeInfo)
+                .filter(([type, cols]) => cols.length > 0)
+                .map(([type, cols]) => `${type}: ${cols.join(', ')}`)
+                .join('<br>');
+
+            // Check for missing values
+            checkDataQuality(columns);
+        }
+
+        function checkDataQuality(columns) {
+            let missingCount = 0;
+            uploadedData.forEach(row => {
+                columns.forEach(col => {
+                    if (row[col] === null || row[col] === undefined || row[col] === '') {
+                        missingCount++;
+                    }
+                });
+            });
+
+            if (missingCount > 0) {
+                const qualityDiv = document.querySelector('[data-cy=data-quality]');
+                qualityDiv.style.display = 'block';
+                const warningDiv = document.querySelector('[data-cy=missing-values-warning]');
+                warningDiv.textContent = `Missing values detected: ${missingCount} empty cells found`;
+            }
+        }
+
+        function populateFilters(columns) {
+            // Check for Category column
+            if (columns.includes('Category')) {
+                const select = document.querySelector('[data-cy=filter-category]');
+                if (select) {
+                    const categories = [...new Set(uploadedData.map(row => row.Category))];
+                    categories.forEach(cat => {
+                        if (cat !== null && cat !== undefined) {
+                            const option = document.createElement('option');
+                            option.value = cat;
+                            option.textContent = cat;
+                            select.appendChild(option);
+                        }
+                    });
+                }
+            }
+
+            // Check for Region column
+            if (columns.includes('Region')) {
+                const select = document.querySelector('[data-cy=filter-region]');
+                if (select) {
+                    const regions = [...new Set(uploadedData.map(row => row.Region))];
+                    regions.forEach(region => {
+                        if (region) {
+                            const option = document.createElement('option');
+                            option.value = region;
+                            option.textContent = region;
+                            select.appendChild(option);
+                        }
+                    });
+                }
+            }
+        }
+
+        function populateSortOptions(columns) {
+            const select = document.querySelector('[data-cy=sort-field]');
+            if (select) {
+                columns.forEach(col => {
+                    const option = document.createElement('option');
+                    option.value = col;
+                    option.textContent = col;
+                    select.appendChild(option);
+                });
+            }
+        }
+
+        function populateAggregationOptions(columns) {
+            const select = document.querySelector('[data-cy=group-by]');
+            if (select) {
+                columns.forEach(col => {
+                    const option = document.createElement('option');
+                    option.value = col;
+                    option.textContent = col;
+                    select.appendChild(option);
+                });
+            }
+        }
+
+        function setupFilterEventListeners() {
+            // Filter handling
+            const categoryFilter = document.querySelector('[data-cy=filter-category]');
+            const regionFilter = document.querySelector('[data-cy=filter-region]');
+            const clearButton = document.querySelector('[data-cy=clear-filters]');
+
+            if (categoryFilter) {
+                categoryFilter.addEventListener('change', applyFilters);
+            }
+            if (regionFilter) {
+                regionFilter.addEventListener('change', applyFilters);
+            }
+
+            if (clearButton) {
+                clearButton.addEventListener('click', function() {
+                    if (categoryFilter) categoryFilter.value = '';
+                    if (regionFilter) regionFilter.value = '';
+                    filteredData = [...uploadedData];
+                    if (currentChartType) {
+                        createChart(currentChartType);
+                    }
+                    updateDataPreview();
+                });
+            }
+        }
+
+        function setupSortEventListeners() {
+            // Sort handling
+            const applyButton = document.querySelector('[data-cy=apply-sort]');
+            if (applyButton) {
+                applyButton.addEventListener('click', function() {
+                    const fieldSelect = document.querySelector('[data-cy=sort-field]');
+                    const directionSelect = document.querySelector('[data-cy=sort-direction]');
+                    
+                    if (!fieldSelect || !directionSelect) return;
+                    
+                    const field = fieldSelect.value;
+                    const direction = directionSelect.value;
+
+                    if (!field || !filteredData) return;
+
+                    filteredData.sort((a, b) => {
+                        const valA = a[field];
+                        const valB = b[field];
+
+                        if (direction === 'asc') {
+                            return valA > valB ? 1 : -1;
+                        } else {
+                            return valA < valB ? 1 : -1;
+                        }
+                    });
+
+                    updateDataPreview();
+                    if (currentChartType) {
+                        createChart(currentChartType);
+                    }
+                });
+            }
+        }
+
+        function setupAggregationEventListeners() {
+            // Aggregation handling
+            const applyButton = document.querySelector('[data-cy=apply-aggregation]');
+            if (applyButton) {
+                applyButton.addEventListener('click', function() {
+                    const groupBySelect = document.querySelector('[data-cy=group-by]');
+                    const aggFuncSelect = document.querySelector('[data-cy=aggregate-function]');
+                    
+                    if (!groupBySelect || !aggFuncSelect) return;
+                    
+                    const groupBy = groupBySelect.value;
+                    const aggFunc = aggFuncSelect.value;
+
+                    if (!groupBy || !uploadedData) return;
+
+                    const grouped = {};
+                    uploadedData.forEach(row => {
+                        const key = row[groupBy];
+                        if (!grouped[key]) {
+                            grouped[key] = [];
+                        }
+                        grouped[key].push(row);
+                    });
+
+                    filteredData = Object.entries(grouped).map(([key, rows]) => {
+                        const result = { [groupBy]: key };
+                        
+                        // Find numeric columns
+                        const numericCols = Object.keys(rows[0]).filter(col => 
+                            typeof rows[0][col] === 'number' && col !== groupBy
+                        );
+
+                        numericCols.forEach(col => {
+                            const values = rows.map(r => r[col]).filter(v => v !== null && v !== undefined);
+                            
+                            switch(aggFunc) {
+                                case 'sum':
+                                    result[col] = values.reduce((a, b) => a + b, 0);
+                                    break;
+                                case 'avg':
+                                    result[col] = values.reduce((a, b) => a + b, 0) / values.length;
+                                    break;
+                                case 'count':
+                                    result[col] = values.length;
+                                    break;
+                                case 'min':
+                                    result[col] = Math.min(...values);
+                                    break;
+                                case 'max':
+                                    result[col] = Math.max(...values);
+                                    break;
+                            }
+                        });
+
+                        return result;
+                    });
+
+                    updateDataPreview();
+                    if (currentChartType) {
+                        createChart(currentChartType);
+                    }
+                });
+            }
+        }
+
+        function setupCustomizationEventListeners() {
+            // Chart customization
+            const applyButton = document.querySelector('[data-cy=apply-customization]');
+            if (applyButton) {
+                applyButton.addEventListener('click', function() {
+                    const titleInput = document.querySelector('[data-cy=chart-title-input]');
+                    const colorPicker = document.querySelector('[data-cy=color-picker]');
+                    
+                    const title = titleInput ? titleInput.value : '';
+                    const color = colorPicker ? colorPicker.value : '#0066cc';
+
+                    if (currentChartType) {
+                        // Find the last container and get its chart number
+                        const containers = document.querySelectorAll('#charts-area .chart-container');
+                        const lastContainer = containers[containers.length - 1];
+                        if (!lastContainer) return;
+                        
+                        const containerIdMatch = lastContainer.id.match(/chart-container-(\d+)/);
+                        const chartNum = containerIdMatch ? parseInt(containerIdMatch[1]) : 1;
+                        const canvasId = `${currentChartType}-chart-${chartNum}`;
+                        const chart = Chart.getChart(canvasId);
+                        
+                        if (chart) {
+                            if (title) {
+                                chart.options.plugins.title.display = true;
+                                chart.options.plugins.title.text = title;
+                                
+                                // Also update the div to contain the title
+                                const chartDiv = document.querySelector(`[data-cy=chart-${currentChartType}]`);
+                                if (!chartDiv.querySelector('.chart-title')) {
+                                    const titleEl = document.createElement('h3');
+                                    titleEl.className = 'chart-title';
+                                    titleEl.textContent = title;
+                                    chartDiv.insertBefore(titleEl, chartDiv.firstChild);
+                                } else {
+                                    chartDiv.querySelector('.chart-title').textContent = title;
+                                }
+                            }
+                            
+                            if (color && currentChartType !== 'pie') {
+                                chart.data.datasets[0].backgroundColor = color;
+                                chart.data.datasets[0].borderColor = color;
+                            }
+                            
+                            chart.update();
+                        }
+                    }
+                });
+            }
+        }
+
+        function setupExportEventListeners() {
+            // Export functionality
+            const exportPngButton = document.querySelector('[data-cy=export-png]');
+            if (exportPngButton) {
+                exportPngButton.addEventListener('click', function() {
+                    if (!currentChartType) return;
+
+                    // Find the last container and get its chart number
+                    const containers = document.querySelectorAll('#charts-area .chart-container');
+                    const lastContainer = containers[containers.length - 1];
+                    if (!lastContainer) return;
+                    
+                    const containerIdMatch = lastContainer.id.match(/chart-container-(\d+)/);
+                    const chartNum = containerIdMatch ? parseInt(containerIdMatch[1]) : 1;
+                    const canvasId = `${currentChartType}-chart-${chartNum}`;
+                    const canvas = document.getElementById(canvasId);
+                    
+                    if (canvas) {
+                        canvas.toBlob(function(blob) {
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = 'chart.png';
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                            URL.revokeObjectURL(url);
+                        });
+                    }
+                });
+            }
+
+            const exportSvgButton = document.querySelector('[data-cy=export-svg]');
+            if (exportSvgButton) {
+                exportSvgButton.addEventListener('click', function() {
+                    alert('SVG export would be implemented here');
+                });
+            }
+
+            const exportDataButton = document.querySelector('[data-cy=export-data]');
+            if (exportDataButton) {
+                exportDataButton.addEventListener('click', function() {
+                    if (!filteredData) return;
+
+                    const csv = Papa.unparse(filteredData);
+                    const blob = new Blob([csv], { type: 'text/csv' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'exported-data.csv';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                });
+            }
+        }
+
+        function setupDataTableEventListeners() {
+            // Data table toggle
+            const toggleButton = document.querySelector('[data-cy=toggle-data-table]');
+            if (toggleButton) {
+                toggleButton.addEventListener('click', function() {
+                    const table = document.querySelector('[data-cy=chart-data-table]');
+                    if (table) {
+                        const isVisible = window.getComputedStyle(table).display !== 'none';
+                        table.style.display = isVisible ? 'none' : 'block';
+                        this.textContent = isVisible ? 'Show Data Table' : 'Hide Data Table';
+                        
+                        if (!isVisible && filteredData) {
+                            populateDataTable(table, filteredData.slice(0, 3));
+                        }
+                    }
+                });
+            }
+        }
+
+        function setupMultipleChartsEventListeners() {
+            // Multiple charts support
+            const addChartButton = document.querySelector('[data-cy=add-chart]');
+            if (addChartButton) {
+                addChartButton.addEventListener('click', function() {
+                    if (!uploadedData) return;
+                    
+                    chartCount++;
+                    const containerId = `chart-container-${chartCount}`;
+                    
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'chart-wrapper';
+                    wrapper.innerHTML = `
+                        <div class="chart-types">
+                            <button data-cy="chart-${chartCount}-option-bar" class="chart-option" style="display: inline-block;">Bar Chart</button>
+                            <button data-cy="chart-${chartCount}-option-line" class="chart-option" style="display: inline-block;">Line Chart</button>
+                            <button data-cy="chart-${chartCount}-option-pie" class="chart-option" style="display: inline-block;">Pie Chart</button>
+                            <button data-cy="chart-${chartCount}-option-scatter" class="chart-option" style="display: inline-block;">Scatter Plot</button>
+                        </div>
+                        <div class="chart-container" data-cy="chart-container" id="${containerId}">
+                            <div data-cy="chart-bar" style="display: none;" aria-label="Bar chart visualization" role="img">
+                                <canvas id="bar-chart-${chartCount}"></canvas>
+                            </div>
+                            <div data-cy="chart-line" style="display: none;" aria-label="Line chart visualization" role="img">
+                                <canvas id="line-chart-${chartCount}"></canvas>
+                            </div>
+                            <div data-cy="chart-pie" style="display: none;" aria-label="Pie chart visualization" role="img">
+                                <canvas id="pie-chart-${chartCount}"></canvas>
+                            </div>
+                            <div data-cy="chart-scatter" style="display: none;" aria-label="Scatter plot visualization" role="img">
+                                <canvas id="scatter-chart-${chartCount}"></canvas>
+                            </div>
+                            <button data-cy="remove-chart" style="position: absolute; top: 10px; right: 10px;">Remove</button>
+                        </div>
+                    `;
+                    
+                    const chartsArea = document.getElementById('charts-area');
+                    if (chartsArea) {
+                        chartsArea.appendChild(wrapper);
+                    }
+                    
+                    // Add chart type click handlers
+                    const container = wrapper.querySelector('.chart-container');
+                    const currentChartNum = chartCount;
+                    wrapper.querySelectorAll('[class=chart-option]').forEach(button => {
+                        button.addEventListener('click', function() {
+                            wrapper.querySelectorAll('.chart-option').forEach(btn => btn.classList.remove('active'));
+                            this.classList.add('active');
+                            
+                            const chartType = this.getAttribute('data-cy').split('-').pop();
+                            
+                            container.querySelectorAll('[data-cy^=chart-]').forEach(chart => {
+                                if (chart.getAttribute('data-cy').startsWith('chart-') && 
+                                    !chart.getAttribute('data-cy').includes('container')) {
+                                    chart.style.display = 'none';
+                                }
+                            });
+                            
+                            const chartDiv = container.querySelector(`[data-cy=chart-${chartType}]`);
+                            if (chartDiv) {
+                                chartDiv.style.display = 'block';
+                                createChartInContainer(chartType, containerId, currentChartNum);
+                            }
+                        });
+                    });
+                    
+                    // Add remove handler
+                    wrapper.querySelector('[data-cy=remove-chart]').addEventListener('click', function() {
+                        // Destroy any charts in this container first
+                        const canvases = wrapper.querySelectorAll('canvas');
+                        canvases.forEach(canvas => {
+                            const chart = Chart.getChart(canvas);
+                            if (chart) {
+                                chart.destroy();
+                            }
+                        });
+                        wrapper.remove();
+                    });
+                });
+            }
+
+            const removeButton = document.querySelector('[data-cy=remove-chart]');
+            if (removeButton) {
+                removeButton.addEventListener('click', function() {
+                    const containers = document.querySelectorAll('[data-cy=chart-container]');
+                    if (containers.length > 1) {
+                        this.closest('[data-cy=chart-container]').remove();
+                    }
+                });
+            }
+        }
+
+        // Helper functions
+        function showSuccess() {
+            document.querySelector('[data-cy=upload-success]').style.display = 'block';
+            document.querySelector('[data-cy=error-message]').style.display = 'none';
+            document.querySelector('[data-cy=warning-message]').style.display = 'none';
+        }
+
+        function showError(message) {
+            const errorDiv = document.querySelector('[data-cy=error-message]');
+            errorDiv.style.display = 'block';
+            errorDiv.querySelector('.error-text').textContent = message;
+            document.querySelector('[data-cy=upload-success]').style.display = 'none';
+            document.querySelector('[data-cy=warning-message]').style.display = 'none';
+        }
+
+        function showWarning(message) {
+            const warningDiv = document.querySelector('[data-cy=warning-message]');
+            warningDiv.style.display = 'block';
+            const warningTextSpan = warningDiv.querySelector('.warning-text');
+            if (warningTextSpan) {
+                warningTextSpan.textContent = message;
+            } else {
+                warningDiv.textContent = message;
+            }
+            document.querySelector('[data-cy=upload-success]').style.display = 'none';
+            document.querySelector('[data-cy=error-message]').style.display = 'none';
+        }
+
+        function createChart(type) {
+            if (!filteredData || filteredData.length === 0) return;
+
+            // Find the last (most recent) chart container
+            const containers = document.querySelectorAll('#charts-area .chart-container');
+            const lastContainer = containers[containers.length - 1];
+            if (!lastContainer) return;
+            
+            // Extract chart number from container ID
+            const containerIdMatch = lastContainer.id.match(/chart-container-(\d+)/);
+            const chartNum = containerIdMatch ? parseInt(containerIdMatch[1]) : 1;
+            const canvasId = `${type}-chart-${chartNum}`;
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+
+            // Destroy existing chart if any
+            const existingChart = Chart.getChart(canvasId);
+            if (existingChart) {
+                existingChart.destroy();
+            }
+
+            // Prepare data for chart - intelligently detect columns
+            const columns = Object.keys(filteredData[0]);
+            
+            // Find the first text/categorical column for labels
+            const labelColumn = columns.find(col => {
+                const sample = filteredData[0][col];
+                return typeof sample === 'string' && isNaN(Number(sample));
+            }) || columns[0];
+            
+            // Find the first numeric column for values
+            const valueColumn = columns.find(col => {
+                const sample = filteredData[0][col];
+                return typeof sample === 'number' || !isNaN(Number(sample));
+            }) || columns[1] || columns[0];
+            
+            const labels = filteredData.map((row, index) => row[labelColumn] || `Item ${index + 1}`);
+            const values = filteredData.map(row => {
+                const val = row[valueColumn];
+                return typeof val === 'number' ? val : (isNaN(Number(val)) ? 0 : Number(val));
+            });
+
+            const chartConfig = {
+                type: type === 'scatter' ? 'scatter' : type,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Data',
+                        data: type === 'scatter' ? 
+                            filteredData.map((row, i) => ({ x: i, y: values[i] })) : 
+                            values,
+                        backgroundColor: type === 'pie' ? 
+                            ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'] :
+                            '#0066cc',
+                        borderColor: '#0066cc',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: false,
+                            text: ''
+                        }
+                    },
+                    scales: type !== 'pie' ? {
+                        y: {
+                            beginAtZero: true
+                        }
+                    } : undefined
+                }
+            };
+
+            new Chart(ctx, chartConfig);
+        }
+        
+        function createChartInContainer(type, containerId, chartNum) {
+            if (!filteredData || filteredData.length === 0) return;
+
+            const canvasId = `${type}-chart-${chartNum}`;
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+
+            // Destroy existing chart if any
+            const existingChart = Chart.getChart(canvasId);
+            if (existingChart) {
+                existingChart.destroy();
+            }
+
+            // Prepare data for chart - intelligently detect columns
+            const columns = Object.keys(filteredData[0]);
+            
+            // Find the first text/categorical column for labels
+            const labelColumn = columns.find(col => {
+                const sample = filteredData[0][col];
+                return typeof sample === 'string' && isNaN(Number(sample));
+            }) || columns[0];
+            
+            // Find the first numeric column for values
+            const valueColumn = columns.find(col => {
+                const sample = filteredData[0][col];
+                return typeof sample === 'number' || !isNaN(Number(sample));
+            }) || columns[1] || columns[0];
+            
+            const labels = filteredData.map((row, index) => row[labelColumn] || `Item ${index + 1}`);
+            const values = filteredData.map(row => {
+                const val = row[valueColumn];
+                return typeof val === 'number' ? val : (isNaN(Number(val)) ? 0 : Number(val));
+            });
+
+            const chartConfig = {
+                type: type === 'scatter' ? 'scatter' : type,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Data',
+                        data: type === 'scatter' ? 
+                            filteredData.map((row, i) => ({ x: i, y: values[i] })) : 
+                            values,
+                        backgroundColor: type === 'pie' ? 
+                            ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'] :
+                            '#0066cc',
+                        borderColor: '#0066cc',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: false,
+                            text: ''
+                        }
+                    },
+                    scales: type !== 'pie' ? {
+                        y: {
+                            beginAtZero: true
+                        }
+                    } : undefined
+                }
+            };
+
+            new Chart(ctx, chartConfig);
+        }
+
+        function applyFilters() {
+            if (!uploadedData) return;
+
+            const categoryFilter = document.querySelector('[data-cy=filter-category]').value;
+            const regionFilter = document.querySelector('[data-cy=filter-region]').value;
+
+            filteredData = uploadedData.filter(row => {
+                const categoryMatch = !categoryFilter || row.Category === categoryFilter;
+                const regionMatch = !regionFilter || row.Region === regionFilter;
+                return categoryMatch && regionMatch;
+            });
+
+            // Update chart if one is active
+            if (currentChartType) {
+                createChart(currentChartType);
+            }
+
+            // Update data preview
+            updateDataPreview();
+        }
+
+        function updateDataPreview() {
+            const tbody = document.querySelector('[data-cy=data-preview] tbody');
+            tbody.innerHTML = '';
+            
+            if (!filteredData || filteredData.length === 0) return;
+            
+            const columns = Object.keys(filteredData[0]);
+            const previewRows = Math.min(5, filteredData.length);
+            
+            for (let i = 0; i < previewRows; i++) {
+                const tr = document.createElement('tr');
+                columns.forEach(col => {
+                    const td = document.createElement('td');
+                    td.textContent = filteredData[i][col] ?? '';
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            }
+        }
+
+        function populateDataTable(tableDiv, data) {
+            const table = tableDiv.querySelector('table');
+            const thead = table.querySelector('thead');
+            const tbody = table.querySelector('tbody');
+            
+            thead.innerHTML = '';
+            tbody.innerHTML = '';
+            
+            if (!data || data.length === 0) return;
+            
+            const columns = Object.keys(data[0]);
+            
+            // Header
+            const headerRow = document.createElement('tr');
+            columns.forEach(col => {
+                const th = document.createElement('th');
+                th.textContent = col;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+            
+            // Body
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                columns.forEach(col => {
+                    const td = document.createElement('td');
+                    td.textContent = row[col] ?? '';
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+</html>
