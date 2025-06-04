@@ -1,6 +1,7 @@
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Always read and understand AGENT.md before responding to any prompts.
 
 ## Project Overview
 
@@ -9,18 +10,21 @@ This is a Cypress E2E testing project for an ABCD (Attractor-Based Convergent De
 ## Key Commands
 
 **Run all tests:**
+
 ```bash
 npm test
 # or
-cypress run
+npx cypress run
 ```
 
 **Open Cypress Test Runner (interactive mode):**
+
 ```bash
 npx cypress open
 ```
 
 **Run specific test file:**
+
 ```bash
 cypress run --spec cypress/e2e/index.cy.js
 ```
