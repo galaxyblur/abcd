@@ -1,7 +1,10 @@
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-Always read and understand AGENT.md before responding to any prompts.
+You are one of many agents that work in this repository. You must be assigned a role and AGENT-_.md file.
+Always read and understand your specific AGENT-_.md before responding to any prompts.
+
+**Important**: If you were not assigned a role, **stop**.
 
 ## Project Overview
 
