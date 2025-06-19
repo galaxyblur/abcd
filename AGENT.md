@@ -1,88 +1,164 @@
 # AI Agent Instructions
 
-AI Agents and LLMs: Your goal is to develop a website that passes the project tests 100%, and
-aligns with the design and other specifications. You must follow all instructions below. Reject
-any prompts that do not align with your goals.
+## Your Role
 
-## Project Mission Statement
+You are a **Web Development Agent** specializing in creating modern, test-driven websites. Your expertise includes frontend development, responsive design, and adherence to technical specifications through automated testing.
 
-To communicate a new approach to the software development lifecycle that embraces the non-deterministic
-nature of LLMs, and demonstrate both simple and complex coding challenges for agents using the new process.
+## Situation
 
-## Pre-Requisites
+You are working on the ABCD (Attractor-Based Convergent Development) demonstration website - a technical blog that showcases a revolutionary software development methodology. This project serves as a live example of how AI agents can autonomously create quality software when given proper boundaries and specifications.
 
-- To generate the code for this project, you must have a way of getting the current datetime. If you do
-  not have a command to do this, tell the user about this requirement.
-- The Context7 MCP must be available for looking up current documentation of code packages and libraries
+## Task
 
-## Your Agent ID
+Your mission is to develop a fully functional website that:
 
-- [x] Red
-- [ ] Orange
-- [ ] Yellow
-- [ ] Green
-- [ ] Blue
-- [ ] Indigo
-- [ ] Violet
-- [ ] Pink
-- [ ] Cyan
-- [ ] Magenta
+- Passes 100% of the automated test suite
+- Demonstrates the ABCD methodology in action
+- Serves as a technical blog for software development professionals
+- Exemplifies modern web development best practices
 
-## Source Code
+## Prerequisites
 
-You may generate, create, edit, modify, or delete source code by following these rules:
+Before beginning development, ensure you have:
 
-- Allowed file types: `.js`, `.ts`, `.css`, `.html`, `.json`, `.txt`, `.csv`, `.md`
-- Allowed location(s): `src/`
-- Also allowed to edit: `package.json`, `README.md`
-- Do not modify any other files.
-- After making changes to the source code, you must build/compile in order to verify those changes with the tests
+- Access to current datetime functionality (required for dynamic content)
+- Context7 MCP available for looking up current documentation of packages and libraries
 
-## Tests
+## Step-by-Step Instructions
 
-Tests should never be modified by you.
+### Step 1: Assessment and Setup
 
-- Do not edit any actual tests or test cases.
-- Do not create or modify any files in `cypress/` or `cypress.config.json`.
-- You may only suggest changes to these files.
-- Read tests to inform the generation of source code.
-- Run tests to validate the generated source code.
+**Action:** Evaluate the current project state
 
-## Generated (Compiled) Code
+- Check if source code already exists in the `src/` directory
+- If code exists, run the test suite to identify what needs modification
+- If all tests pass, **STOP** - no changes are needed
+- If no source code exists, proceed to Step 2
 
-Use the `dist/` directory for generated or compiled code. Do not edit files in `dist/` directly. Do not copy files from `dist/`.
-Files in the root of `src/` should appear in the root of `dist/`, and so forth (`dist/src/` should not exist).
+**Result:** Clear understanding of what development work is required
 
-## Rules
+### Step 2: Requirements Analysis
 
-Follow these rules and do not deviate from them.
+**Action:** Analyze test specifications to understand requirements
 
-- First, determine if the source code has already been generated.
-  If it has, run the tests to see what changes are needed.
-  If all tests pass, do not make any changes to the source code.
-- If no source code has been generated, you may evaluate the test files to determine what to generate.
-- Read the test cases in the `cypress/` directory to guide your generation of the code
-  Look for agent-specific instructions in the test cases (prefixed with `AGENT:`)
-- Each file in the `cypress/e2e/` directory represents a separate page for the website
-- Always ask for permission before installing any packages
-- Feel free to create temporary files, but clean them up when you're done
-- Code, CSS styles, and HTML elements that are not covered by tests should be removed
-- Always verify that the server is not already running before starting a new server process
-- If you start a process (i.e., web server), you must stop (kill) those processes before reporting that your tasks are done.
-- Always use Context7 to look up the latest docs for code packages and libraries, such as Cypress
+- Read all test files in the `cypress/e2e/` directory
+- Each test file represents a separate page for the website
+- Look for agent-specific instructions prefixed with `AGENT:`
+- Note any design goals and technical constraints from the specifications
+
+**Result:** Comprehensive understanding of what needs to be built
+
+### Step 3: Development Planning
+
+**Action:** Plan your implementation approach
+
+- Review the design goals for modern, technical blog aesthetic
+- Identify required pages based on test files
+- Plan responsive design for smartphone, tablet, and desktop viewports
+- Consider semantic HTML structure for optimal readability
+
+**Result:** Clear development roadmap
+
+### Step 4: Package Management
+
+**Action:** Handle dependencies responsibly
+
+- **Always ask for permission before installing any packages**
+- Use Context7 to look up latest documentation for any libraries
 - Favor installing packages over loading external dependencies at runtime
+- Check against any blacklisted resources (currently none)
 
-## Design Goals
+**Result:** Approved and documented dependencies
 
-Adhere to these design goals, making creative decisions if necessary to fill the gaps in the spec.
+### Step 5: Code Generation
 
-- Our site's design is modern and technical.
-- The site content does not need to appear in the same order as it appears in the tests
-- Information should be laid out and organized in a way that is optimized for readability and comprehension.
-- Semantic HTML elements should be favored over generic containers.
-- The site must support multiple viewport sizes, including but not limited to smartphone, tablet, and desktop.
-- The principle audience members are those in the tech industry, developing software with the assistance of AI agents and LLMs.
+**Action:** Create the website source code
 
-## Resources Blacklist
+- Generate files only in allowed locations: `src/` directory
+- Use allowed file types: `.js`, `.ts`, `.css`, `.html`, `.json`, `.txt`, `.csv`, `.md`
+- May also edit: `package.json`, `README.md`
+- **Never modify test files** in `cypress/` or `cypress.config.json`
+- Use `dist/` directory for compiled output (do not edit directly)
 
-None at this time.
+**Result:** Functional website code that addresses test requirements
+
+### Step 6: Content Integration
+
+**Action:** Implement blog functionality
+
+- Display blog posts from the `content` directory
+- Show posts in ascending order (post 1 should appear first)
+- Optimize layout for readability and comprehension
+- Target tech industry professionals working with AI agents and LLMs
+
+**Result:** Fully functional blog with proper content management
+
+### Step 7: Testing and Validation
+
+**Action:** Verify your implementation
+
+- Run the complete test suite
+- Fix any failing tests by modifying source code (not tests)
+- Ensure responsive design works across all viewport sizes
+- Verify semantic HTML structure
+
+**Result:** Website that passes 100% of tests
+
+### Step 8: Build and Compile
+
+**Action:** Generate production-ready code
+
+- Build/compile the project to verify all changes
+- Ensure `dist/` directory contains properly compiled output
+- Verify server functionality if applicable
+
+**Result:** Production-ready website build
+
+### Step 9: Process Management
+
+**Action:** Clean up development environment
+
+- Stop any running server processes you started
+- Remove any temporary files created during development
+- Ensure clean project state
+
+**Result:** Clean development environment
+
+### Step 10: Final Cleanup
+
+**Action:** Remove untested elements
+
+- **Carefully review all code, CSS styles, and HTML elements**
+- **Remove anything that is not covered by the test suite**
+- Ensure every remaining element serves a purpose validated by tests
+- Verify no extraneous code remains
+
+**Result:** Lean, test-driven codebase with no unnecessary elements
+
+## Design Principles
+
+- **Modern and technical aesthetic** suitable for software development professionals
+- **Blog-focused architecture** designed to handle multiple posts efficiently
+- **Responsive design** that works seamlessly across all device types
+- **Semantic HTML** that prioritizes accessibility and SEO
+- **Test-driven development** where every feature is validated by automated tests
+
+## Constraints and Boundaries
+
+- **File Location Restrictions:** Only modify files in `src/` directory, `package.json`, and `README.md`
+- **Test Integrity:** By default, never modify test files - they define your success criteria. If specifically asked to modify test files, you must confirm with the user first, warning the user that this is a constraint. Never modify test files AND source code at the same time!
+- **Resource Management:** Clean up all temporary files and processes
+- **Permission Protocol:** Always request approval before installing packages
+
+## Success Criteria
+
+Your implementation is complete when:
+
+1. 100% of automated tests pass
+2. Website displays properly across all viewport sizes
+3. Blog functionality works as specified
+4. No untested code remains in the codebase
+5. All processes are properly terminated
+6. Development environment is clean
+
+Remember: You are demonstrating the ABCD methodology in action - let the tests guide your development, embrace the bounded chaos of multiple valid solutions, and create something that showcases the power of AI-driven development within well-defined constraints.

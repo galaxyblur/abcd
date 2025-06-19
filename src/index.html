@@ -141,6 +141,188 @@
             margin-top: 1rem;
         }
 
+        #posts {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        #posts h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #1a1a1a;
+        }
+
+        .post-item {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+        }
+
+        .post-item h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #0066cc;
+            cursor: pointer;
+        }
+
+        .post-item h4:hover {
+            text-decoration: underline;
+        }
+
+        .post-excerpt {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-meta {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        #pagination {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        #pagination button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin: 0 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        #pagination button:hover {
+            background-color: #0052a3;
+        }
+
+        #pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        #post {
+            background-color: white;
+            padding: 3rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+
+        #post h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            line-height: 1.2;
+        }
+
+        #post h2 {
+            font-size: 1.8rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+
+        #post h3 {
+            font-size: 1.4rem;
+            margin-top: 2rem;
+            margin-bottom: 0.8rem;
+            color: #333;
+        }
+
+        #post h4 {
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: #333;
+        }
+
+        #post p {
+            margin-bottom: 1.2rem;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        #post ul, #post ol {
+            margin-left: 2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        #post li {
+            margin-bottom: 0.5rem;
+            list-style-position: inside;
+            color: #555;
+        }
+
+        #post em {
+            font-style: italic;
+            color: #666;
+        }
+
+        #post strong {
+            font-weight: 600;
+            color: #333;
+        }
+
+        #post code {
+            background-color: #f4f4f4;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        #post pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-bottom: 1.2rem;
+        }
+
+        #post pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+
+        #post hr {
+            border: none;
+            border-top: 1px solid #e9ecef;
+            margin: 2.5rem 0;
+        }
+
+        #post a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        #post a:hover {
+            text-decoration: underline;
+        }
+
+        .back-button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .back-button:hover {
+            background-color: #0052a3;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -250,13 +432,236 @@
                 <p>Approved resources prevent agents from pulling in problematic dependencies, ensures compliance with organizational standards, and maintains architectural consistency.</p>
             </div>
         </section>
+
+        <section id="posts">
+            <h3>Blog Posts</h3>
+            <div id="posts-container">
+                <!-- Posts will be dynamically loaded here -->
+            </div>
+            <div id="pagination">
+                <button id="prev-page" style="display: none;">Previous</button>
+                <button id="next-page" style="display: none;">Next</button>
+            </div>
+        </section>
+
+        <article id="post" style="display: none;">
+            <!-- Individual post content will be loaded here -->
+        </article>
     </div>
 
     <footer id="footer">
         <p>© 2025 Corky Brown</p>
         <div id="agent-signature">
-            <p>Generated by Agent Red on 2025-06-03T04:07:53Z</p>
+            <p>generated by default agent on 2025-06-19T00:00:00Z</p>
         </div>
     </footer>
+
+    <script>
+        // Blog post data
+        const posts = [
+            {
+                id: 1,
+                title: "The Meta-ABCD Experiment Begins: When Methodology Meets Reality",
+                excerpt: "Here's a question that might surprise you: When was the last time you told ChatGPT exactly which words to use in which order? Never, right? Instead, you do something far more powerful. You say 'write a compelling product description' or 'explain quantum physics like I'm five' or 'help me debug this code.' You specify what you want, set some boundaries, and trust the AI to figure out how to deliver it.",
+                date: "2025-06-18",
+                readingTime: "12 minutes"
+            }
+        ];
+
+        const POSTS_PER_PAGE = 3;
+        let currentPage = 1;
+
+        function getPageFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            return parseInt(params.get('page')) || 1;
+        }
+
+        function updateURL(page) {
+            const url = new URL(window.location);
+            url.searchParams.set('page', page);
+            window.history.pushState({}, '', url);
+        }
+
+        function renderPosts() {
+            const container = document.getElementById('posts-container');
+            const prevButton = document.getElementById('prev-page');
+            const nextButton = document.getElementById('next-page');
+            
+            const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+            const endIndex = startIndex + POSTS_PER_PAGE;
+            const pagePosts = posts.slice(startIndex, endIndex);
+            
+            container.innerHTML = '';
+            
+            pagePosts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'post-item';
+                postElement.innerHTML = `
+                    <h4 onclick="navigateToPost(${post.id})">${post.title}</h4>
+                    <div class="post-excerpt">${post.excerpt}</div>
+                    <div class="post-meta">${post.date} · ${post.readingTime}</div>
+                `;
+                container.appendChild(postElement);
+            });
+            
+            // Update pagination buttons
+            prevButton.style.display = currentPage > 1 ? 'inline-block' : 'none';
+            nextButton.style.display = endIndex < posts.length ? 'inline-block' : 'none';
+        }
+
+        function navigateToPost(postId) {
+            // Show post on the same page
+            showPost(postId);
+        }
+
+        async function showPost(postId) {
+            // Hide sections and show post
+            document.getElementById('attractor').style.display = 'none';
+            document.getElementById('scaffolding').style.display = 'none';
+            document.getElementById('guardrails').style.display = 'none';
+            document.getElementById('resources').style.display = 'none';
+            document.getElementById('posts').style.display = 'none';
+            document.getElementById('post').style.display = 'block';
+
+            try {
+                // Load the markdown content
+                const response = await fetch('/posts/01.md');
+                const markdown = await response.text();
+                
+                const postElement = document.getElementById('post');
+                const htmlContent = markdownToHTML(markdown);
+                
+                // Add back button and content
+                postElement.innerHTML = `
+                    <button class="back-button" onclick="showHomePage()">← Back to Home</button>
+                    ${htmlContent}
+                `;
+                
+                // Update URL
+                const url = new URL(window.location);
+                url.searchParams.set('post', postId);
+                window.history.pushState({}, '', url);
+                
+            } catch (error) {
+                document.getElementById('post').innerHTML = '<p>Error loading post. Please try again later.</p>';
+            }
+        }
+
+        function showHomePage() {
+            // Show sections and hide post
+            document.getElementById('attractor').style.display = 'block';
+            document.getElementById('scaffolding').style.display = 'block';
+            document.getElementById('guardrails').style.display = 'block';
+            document.getElementById('resources').style.display = 'block';
+            document.getElementById('posts').style.display = 'block';
+            document.getElementById('post').style.display = 'none';
+            
+            // Clear post parameter from URL
+            const url = new URL(window.location);
+            url.searchParams.delete('post');
+            window.history.pushState({}, '', url);
+        }
+
+        // Simple markdown to HTML converter
+        function markdownToHTML(markdown) {
+            let html = markdown;
+            
+            // Convert headers
+            html = html.replace(/^#### (.*$)/gim, '<h4>$1</h4>');
+            html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+            html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+            html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+            
+            // Convert bold
+            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            
+            // Convert italic
+            html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+            
+            // Convert links
+            html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+            
+            // Convert inline code
+            html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+            
+            // Convert code blocks
+            html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
+            
+            // Convert line breaks and paragraphs
+            html = html.replace(/\n\n/g, '</p><p>');
+            html = '<p>' + html + '</p>';
+            
+            // Convert lists
+            html = html.replace(/<p>- (.*)<\/p>/g, '<ul><li>$1</li></ul>');
+            html = html.replace(/<\/ul>\n<ul>/g, '');
+            
+            // Convert horizontal rules
+            html = html.replace(/<p>---<\/p>/g, '<hr>');
+            
+            // Clean up empty paragraphs
+            html = html.replace(/<p><\/p>/g, '');
+            html = html.replace(/<p>(<h[1-6]>)/g, '$1');
+            html = html.replace(/(<\/h[1-6]>)<\/p>/g, '$1');
+            html = html.replace(/<p>(<hr>)<\/p>/g, '$1');
+            
+            return html;
+        }
+
+        function nextPage() {
+            currentPage++;
+            updateURL(currentPage);
+            renderPosts();
+        }
+
+        function prevPage() {
+            currentPage--;
+            updateURL(currentPage);
+            renderPosts();
+        }
+
+        // Expose functions to window for testing
+        window.nextPage = nextPage;
+        window.prevPage = prevPage;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const postId = params.get('post');
+            const showList = params.get('showList');
+            
+            if (postId) {
+                // Show individual post
+                showPost(postId);
+            } else if (showList === 'true') {
+                // Force show posts list (for testing purposes)
+                currentPage = getPageFromURL();
+                renderPosts();
+            } else if (posts.length === 1) {
+                // If there's only one post, show it directly
+                showPost(posts[0].id);
+            } else {
+                // Show posts list
+                currentPage = getPageFromURL();
+                renderPosts();
+            }
+            
+            document.getElementById('next-page').addEventListener('click', nextPage);
+            document.getElementById('prev-page').addEventListener('click', prevPage);
+        });
+
+        // Handle browser back/forward
+        window.addEventListener('popstate', () => {
+            const params = new URLSearchParams(window.location.search);
+            const postId = params.get('post');
+            
+            if (postId) {
+                showPost(postId);
+            } else {
+                showHomePage();
+                currentPage = getPageFromURL();
+                renderPosts();
+            }
+        });
+    </script>
 </body>
 </html>

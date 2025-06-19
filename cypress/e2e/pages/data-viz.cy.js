@@ -5,6 +5,20 @@
 describe('the Data Visualization page', () => {
   beforeEach(() => {
     cy.visit('/data-viz');
+    cy.get('body').as('container');
+  });
+
+  it('displays the header with navbar', () => {
+    cy.get('@container').find('#navbar').should('be.visible');
+    cy.get('@container').find('#navbar').contains('Attractor-Based Convergent Development (ABCD)');
+    cy.get('@container').find('#navbar').find('a[title="Source Code"]').should('be.visible');
+  });
+
+  it('displays the footer', () => {
+    cy.get('@container').find('#footer').should('be.visible');
+    cy.get('@container').find('#footer').should('contain.text', `© ${new Date().getFullYear()}`);
+    cy.get('@container').find('#footer').contains('Corky Brown');
+    cy.get('@container').find('#footer').find('#agent-signature').should('be.visible');
   });
 
   it('displays a link to the index page', () => {

@@ -7,13 +7,15 @@ export default defineConfig({
     port: 3000,
     open: false
   },
+  publicDir: '../content',
   build: {
     outDir: '../dist',
     emptyOutDir: true,
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'src/index.html'),
-        dataViz: resolve(__dirname, 'src/data-viz.html')
+        dataViz: resolve(__dirname, 'src/data-viz.html'),
+        post: resolve(__dirname, 'src/post.html')
       }
     }
   }

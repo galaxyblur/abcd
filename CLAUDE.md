@@ -49,4 +49,3 @@ The project follows standard Cypress structure:
 
 - Tests target an ABCD methodology website explaining "Attractor-Based Convergent Development"
 - The application under test must be running on localhost:3000 before executing tests
-- Current tests verify basic content presence (h1 title and site description)
